@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/navbar/Navbar";
-
+import Modal from "./components/modals/modal";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,6 +23,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content =(
+    
+      <p>Contenido</p>
+  )
   return (
     <html lang="en">
       <body
@@ -33,7 +37,7 @@ export default function RootLayout({
         <NavBar></NavBar>
         <div className="pt-32">
         {children}
-        </div>
+        </div>s        
       </body>
     </html>
   );
