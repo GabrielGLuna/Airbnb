@@ -8,7 +8,6 @@ import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
 
 const SignUpModal= ()=>{
-
     //variables
     const router = useRouter();
     const signUpmodal = useSignUpModal();
