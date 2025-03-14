@@ -1,6 +1,10 @@
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar"
 import Image from "next/image"
-const PropertyDetailPage=()=>{
+import apiService from "@/app/services/apiService"
+
+const PropertyDetailPage = async ({params}: {params:{id:string}})=>{
+    const  property = await apiService.get(`/api/properties/${params.id}`)
+
 return (
     <main className=" max-w-[1500px] mx-auto px-6 pb-6">
         <div className="mb-4 w-full h-[64vh] overflow-hidden rounded-xl relative">
@@ -13,28 +17,31 @@ return (
         </div>
         <div className=" grid grid-cols-1 md:grid-cols-5 gap-4">
             <div className="py-6 pr-6 col-span-3">
-             <h1 className="mb-4 text-4xl">Property name</h1>
+             <h1 className="mb-4 text-4xl">{property.title}</h1>
              <span className="mb-6 block text-lg text-gray-600">
-                4 guests - 2 bedrooms - 1 bathroom
+            {property.guests} guests - {property.bedrooms} bedrooms - {property.bathroom} bathrooms
              </span>
              <hr />
              <div className="py-6 flex items-center space-x-4">
+                {property.landlord.avatar_url && (
                 <Image 
-                src="/profile_pic.jpg" 
+                src={property.landlord.avatar_url} 
                 alt="Profile Pic" 
                 height={50}
                 width={50}
                 className="rounded-full"
-                ></Image>
-                <p><strong> Gabriel Garcia is your host</strong></p>
+                ></Image>)}
+                <p><strong> {property.landlord.name} </strong></p>
              </div>
              <hr />
              <p className="mt-6 text-lg">
-                dwkkbfbkerbkfberifhiucrecbkgbrfhughkhbdglkvnhjrkbty
-                hvtdghrbthgbvyrhtddgdtytg
+                {property.description}
              </p>
             </div>
-            <ReservationSideBar/>
+            <ReservationSideBar
+            property={property}
+            />
+
         </div>
     </main>
 )
