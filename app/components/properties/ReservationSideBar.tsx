@@ -35,6 +35,7 @@ const ReservationSideBar:React.FC<ReservationSideBarProps> =({
   const [fee, setFee] = useState<number>(0);
   const [nights, setNights] = useState<number>(0);
   const [totalPrice, settotalPrice] = useState<number>(0);
+  const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [dateRange, setdateRange] = useState<Range>(initialDateRange);
   const [mainDate, setMainDate] = useState<Date>(new Date());
   const [guests, setGuests] = useState<string>('1');
@@ -75,7 +76,23 @@ const ReservationSideBar:React.FC<ReservationSideBarProps> =({
   })
   }
 
+  const getReservations = async ()=>{
+    const reservations = await apiService.get(`/api/properties/${property.id}/reservations/`)
+
+    let dates: Date[]=[];
+
+    reservations.forEach((reservation:any)=>  {
+      const range = eachDayOfInterval({
+        start: new Date(reservation.start_date),
+        end: new Date(reservation.end_date)
+      });
+      dates = [...dates, ...range];
+    })
+    setBookedDates(dates)
+  }
+
   useEffect(()=>{
+    getReservations();
       if (dateRange.startDate && dateRange.endDate){
         const dayCount = differenceInDays(
           dateRange.endDate,
@@ -98,6 +115,7 @@ const ReservationSideBar:React.FC<ReservationSideBarProps> =({
         <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl ">
           <h2 className="mb-5 text-2xl">{property.price_per_night} per night</h2>
           <DatePicker
+          bookedDates={bookedDates}
             value={dateRange}
             onChange={(value)=> _setDateRange(value.selection)}
           />
