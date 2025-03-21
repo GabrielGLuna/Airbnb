@@ -17,7 +17,7 @@ return (
         <div className="mb-4 w-full h-[64vh] overflow-hidden rounded-xl relative">
             <Image
              fill
-             src="/beach.jpg"
+             src={property.image_url.replace(/^https:\/\//, "http://")}
              className="object-cover w-full h-full"
              alt="Beach Houser"
              />
