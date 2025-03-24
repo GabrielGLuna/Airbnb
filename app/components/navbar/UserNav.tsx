@@ -50,6 +50,13 @@ const UserNav: React.FC<userNavProps>=({
                         router.push(`/myreservations`)
                         }}
                     />
+                    <MenuLink 
+                    label="My favorites"
+                    onclick={()=> {
+                        setIsOpen(false);
+                        router.push(`/myfavorites`)
+                        }}
+                    />
                       <LogoutButton/>  
                     </>
                     ):(

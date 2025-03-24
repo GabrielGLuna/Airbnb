@@ -4,14 +4,17 @@ import apiService from "@/app/services/apiService"
 import { getUserId } from "@/app/lib/actions"
 import Link from "next/link"
 
-const PropertyDetailPage = async ({params}: {params:{id:string}})=>{
-    if (!params?.id) {
+const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
+    const { id } = await params; // 👈 Asegura que `params` se resuelve correctamente
+
+    if (!id) {
         return <p>Error: No se encontró el ID de la propiedad.</p>;
     }
     console.log("Parámetros recibidos:", params);
 
-    const  property = await apiService.get(`/api/properties/${params.id}`)
-    const userId = await getUserId();
+    try {
+        const property = await apiService.get(`/api/properties/${id}`);
+        const userId = await getUserId();
 return (
     <main className=" max-w-[1500px] mx-auto px-6 pb-6">
         <div className="mb-4 w-full h-[64vh] overflow-hidden rounded-xl relative">
@@ -26,7 +29,7 @@ return (
             <div className="py-6 pr-6 col-span-3">
              <h1 className="mb-4 text-4xl">{property.title}</h1>
              <span className="mb-6 block text-lg text-gray-600">
-            {property.guests} guests - {property.bedrooms} bedrooms - {property.bathroom} bathrooms
+            {property.guests} guests - {property.bedrooms} bedrooms - {property.bathroom} bathroom
              </span>
              <hr />
              <Link 
@@ -55,5 +58,9 @@ return (
         </div>
     </main>
 )
+    }catch (error) {
+        console.error("Error al obtener la propiedad:", error);
+        return <p>Error al cargar la propiedad.</p>;
+    }
 }
 export default PropertyDetailPage
