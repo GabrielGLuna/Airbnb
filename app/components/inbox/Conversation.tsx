@@ -1,27 +1,30 @@
 'use client'
 
-import { useRouter } from "next/navigation"
-import { ConversationType } from "@/app/inbox/page"
+import { ConversationType } from "@/app/inbox/page";
+import { useRouter } from "next/navigation";
 
-import CustomButton from "../forms/CustomButton"
-interface ConversationProps{
-    conversation: ConversationType,
-    userId:string
+interface ConversationProps {
+    conversation: ConversationType
+    userId: string;
 }
 
-const Conversation: React.FC<ConversationProps>=({
+const Conversation: React.FC<ConversationProps> = ({
     conversation,
     userId
-})=>{
-    const router = useRouter();
-    const otherUser = conversation.users.find((user)=>user.id != userId)
-    return(
-        <div className="px-6 cursor-pointer py-4 border border-gray-300 rounded-xl">
+}) => {
+    const router = useRouter()
+    const otherUser = conversation.users.find((user) => user.id != userId)
+
+
+    return (
+        <div className="px-6 py-4 border cursor-pointer border-gray-300 rounded-xl">
             <p className="mb-6 text-xl">{otherUser?.name}</p>
 
             <p 
-            onClick={()=> router.push(`/inbox/${conversation.id}/`)}
-            className="text-airbnb-dark ">Go to conversation</p>
+            onClick={() => router.push(`/inbox/${conversation.id}`)}
+            className="text-airbnb-dark">Go to conversation</p>
         </div>
-)}
-export  default Conversation
+    )
+}
+
+export default Conversation;
