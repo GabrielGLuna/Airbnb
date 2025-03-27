@@ -1,8 +1,12 @@
 'use client';
 
 import apiService from "@/app/services/apiService";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import PropertyListItem from "./PropertyListItem"
+import useSearchModal from "@/app/hooks/useSearchModal";
+import SearchModal from "../modals/SearchModal";
+import { format } from "date-fns";
 
 export type PropertyType = {
     id:string;
@@ -20,7 +24,20 @@ const PropertyList: React.FC<PropertyListProps> =({
     landlord_id,
     favorites
 })=>{
+    const params = useSearchParams()
+    const searchModal = useSearchModal();
+    const country = searchModal.query.country;
+    const numGuests = searchModal.query.guests;
+    const numBathrooms = searchModal.query.bathrooms;
+    const numBedrooms = searchModal.query.bedrooms;
+    const checkInDate = searchModal.query.checkIn;
+    const checkOutDate = searchModal.query.checkOut;
+    const category  =searchModal.query.category;
+    console.log('shs',searchModal.query)
+    console.log('number', numBedrooms)
+
     const [properties, setProperties] = useState<PropertyType[]>([]);
+
     const markFavorite = ( id:string, is_favorite:boolean)=>{
         const tmpProperties = properties.map((property:PropertyType)=>{
             if(property.id == id){
@@ -37,12 +54,46 @@ const PropertyList: React.FC<PropertyListProps> =({
     }
 
     const getProperties = async () =>{
+
         let url = '/api/properties/';
+
         if(landlord_id){
             url += `?landlord_id=${landlord_id}`
         }else if(favorites){
             url += `?is_favorites=true`
+        } else{
+            let urlQuery = '';
+
+            if(country){
+                urlQuery += '&country=' + country
+            }
+            if(numGuests){
+                urlQuery += '&numGuests=' + numGuests
+            }
+            if(numBathrooms){
+                urlQuery += '&numBathrooms=' + numBathrooms
+            }
+            if(numBedrooms){
+                urlQuery += '&numBethrooms=' + numBedrooms
+            }
+            if(category){
+                urlQuery += '&category=' + category
+            }
+            if(checkInDate){
+                urlQuery += '&checkin' + format(checkInDate, `yyyy-MM-dd`)
+            }
+            if(checkOutDate){
+                urlQuery += '&checkout' + format(checkOutDate, `yyyy-MM-dd`)
+            }
+
+            if(urlQuery.length){
+                console.log('Query', urlQuery)
+                urlQuery = '?'+urlQuery.substring(1)
+                url += urlQuery;
+            }
         }
+
+
         const tmpProperties = await apiService.get(url)
 
         setProperties(tmpProperties.data.map((property: PropertyType)=>{
@@ -58,7 +109,7 @@ const PropertyList: React.FC<PropertyListProps> =({
         
     useEffect(()=>{
             getProperties();
-    }, []) 
+    }, [category, searchModal.query, params]);
     
     return(
         <>

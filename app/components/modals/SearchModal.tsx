@@ -1,7 +1,7 @@
 'use client'
 import Modal from "./modal";
 import DatePicker from "../forms/Calendar";
-import useSearchModal from "@/app/hooks/useSearchModal";
+import useSearchModal, { SearchQuery } from "@/app/hooks/useSearchModal";
 import SelectCountry, {SelectCountryValue} from "../forms/SelectCountry";
 import { useState } from "react";
 import { Range } from "react-date-range";
@@ -27,8 +27,19 @@ const SearchModal = () =>{
     const [dateRange, setDateRange] = useState<Range>(initialDateRange)
 
     const closeAndSearch = ()=>{
+        const newSearchQuery: SearchQuery={
+            country: country?.label,
+            checkIn: dateRange.startDate,
+            checkOut: dateRange.endDate,
+            guests: parseInt(numGuests),
+            bedrooms: parseInt(numBedrooms),
+            bathrooms: parseInt(numBathrooms),
+            category: ''
+        }
+        searchModal.setQuery(newSearchQuery);
         searchModal.close()
     }
+
     //set Date Range
     const _setDateRange = (selection: Range)=>{
          if (searchModal.step === 'checkin'){

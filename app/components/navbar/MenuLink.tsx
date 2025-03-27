@@ -1,16 +1,16 @@
 'use client';
 interface MenuLinkProps{
     label:string;
-    onclick: ()=> void
+    onClick: ()=> void
 }
 
 const  MenuLink: React.FC<MenuLinkProps> = ({
     label,
-    onclick
+    onClick
 }) => {
     return(
         <div 
-        onClick={onclick}
+        onClick={onClick}
         className="cursor-pointer px-5 py-4 hover:bg-gray-100 transition">
             {label}
         </div>

@@ -58,7 +58,7 @@ const SignUpModal= ()=>{
 
                 <CustomButton
                  label="submit"
-                 onclick={submitSignUp}
+                 onClick={submitSignUp}
                 />
              </form>
 

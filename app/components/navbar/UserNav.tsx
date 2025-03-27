@@ -38,28 +38,28 @@ const UserNav: React.FC<userNavProps>=({
                     <>
                     <MenuLink 
                     label="Inbox"
-                    onclick={()=> {
+                    onClick={()=> {
                         setIsOpen(false);
                         router.push(`/inbox`)
                         }}
                     />
                     <MenuLink 
                     label="My properties"
-                    onclick={()=> {
+                    onClick={()=> {
                         setIsOpen(false);
                         router.push(`/myproperties`)
                         }}
                     />
                     <MenuLink 
                     label="My reservations"
-                    onclick={()=> {
+                    onClick={()=> {
                         setIsOpen(false);
                         router.push(`/myreservations`)
                         }}
                     />
                     <MenuLink 
                     label="My favorites"
-                    onclick={()=> {
+                    onClick={()=> {
                         setIsOpen(false);
                         router.push(`/myfavorites`)
                         }}
@@ -69,7 +69,7 @@ const UserNav: React.FC<userNavProps>=({
                     ):(
                         <>
                     <MenuLink
-                    onclick={()=> {console.log('Click bitton')
+                    onClick={()=> {console.log('Click bitton')
                         setIsOpen(false);
                         loginModal.open()
                         }
@@ -77,7 +77,7 @@ const UserNav: React.FC<userNavProps>=({
                 label='Log In'
                 />
                     <MenuLink
-                    onclick={()=> {console.log('Click bitton')
+                    onClick={()=> {console.log('Click bitton')
                         setIsOpen(false);
                         signUpModal.open()
                     }

@@ -1,6 +1,6 @@
 interface CustomButtonProps {
     label: string;
-    className?: string;
+    className?: string | null;
     onClick: () => void;
 }
 
